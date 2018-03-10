@@ -59,7 +59,7 @@
 						vsync-len = <2>; // in lines
 						//clock-frequency = <25175000>;
 						//clock-frequency = <28000000>;
-						clock-frequency = <26000000>;
+						clock-frequency = <25200000>;
 						hsync-active = <0x0>;
 						vsync-active = <0x0>;
 						linux,phandle = <0x4>;
