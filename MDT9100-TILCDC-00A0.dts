@@ -48,18 +48,18 @@
 
 				display-timings {
 				    native-mode = <&timing0>;
-				    // 512x384 visible
-				    // 400x300 outside
-				    timing0: 512x384@60 {
-						hactive = <512>;
-						vactive = <384>;
-						hback-porch = <1>;
-						hfront-porch = <1>;
-						hsync-len = <64>;
-						vback-porch = <20>;
-						vfront-porch = <10>;
-						vsync-len = <3>; // in frames
-						clock-frequency = <16000000>;
+				    timing0: 640x480@60 {
+						hactive = <640>;
+						vactive = <480>;
+						hback-porch = <48>; // in pixels
+						hfront-porch = <16>; // in pixels
+						hsync-len = <96>; // in pixels
+						vback-porch = <33>; // in pixels
+						vfront-porch = <10>; // in pixels
+						vsync-len = <2>; // in lines
+						//clock-frequency = <25175000>;
+						//clock-frequency = <28000000>;
+						clock-frequency = <26000000>;
 						hsync-active = <0x0>;
 						vsync-active = <0x0>;
 						linux,phandle = <0x4>;
@@ -81,7 +81,7 @@
 
 	__symbols__ {
 		bone_lcd3_cape_lcd_pins = "/fragment@0/__overlay__/pinmux_bone_lcd3_cape_lcd_pins";
-		timing0 = "/fragment@2/__overlay__/panel/display-timings/512x384";
+		timing0 = "/fragment@2/__overlay__/panel/display-timings/640x480";
 	};
 
 	__fixups__ {
