@@ -8,38 +8,41 @@
  * due to the way the diodes are wired.  Be sure to select
  * Tools - USB Type - Serial + Keyboard + Mouse
  * 
- *
  * The rows are ribbon cable pins 1-8
  * The columns are ribbon cable pins 9-18
+ *
  * Caps lock LED is 19
  * Keyboard ground is 20
+ *
+ * The adapter board as built alternates sides to make it easier
+ * to wire up.  Caps lock LED is active high on pin 0
  */
 
 // these are teensy pin numbers, connected to the anode of the diodes
 // reversing the ribbon cable order gives us a more natural layout
 static const uint8_t rows[] = {
-	5,	// ribbon 8
-	18,	// ribbon 7
-	6,	// ribbon 6
-	17,	// ribbon 5
-	7,	// ribbon 4
-	16,	// ribbon 3
-	8,	// ribbon 2
-	15,	// ribbon 1
+	20,	// ribbon 8
+	7,	// ribbon 7
+	19,	// ribbon 6
+	8,	// ribbon 5
+	18,	// ribbon 4
+	9,	// ribbon 3
+	17,	// ribbon 2
+	10,	// ribbon 1
 };
 
 // these are teensy pin numbers, connected to the switch, debounce and cathode
 static const uint8_t cols[] = {
-	19,	// ribbon 9
-	4,	// ribbon 10
-	20,	// ribbon 11
-	3,	// ribbon 12
-	21,	// ribbon 13
-	2,	// ribbon 14
-	22,	// ribbon 15
-	1,	// ribbon 16
-	23,	// ribbon 17
-	0,	// ribbon 18
+	6,	// ribbon 9
+	21,	// ribbon 10
+	5,	// ribbon 11
+	22,	// ribbon 12
+	4,	// ribbon 13
+	23,	// ribbon 14
+	3,	// ribbon 15
+	14,	// ribbon 16 // oops
+	2,	// ribbon 17
+	1,	// ribbon 18
 };
 
 static const unsigned num_rows = sizeof(rows)/sizeof(*rows);
@@ -102,7 +105,7 @@ void loop()
 			digitalWrite(cols[j], 0);
 			pinMode(cols[j], OUTPUT);
 		}
-		delay(5);
+		delay(10);
 		for(uint8_t j = 0 ; j < num_cols ; j++)
 		{
 			pinMode(cols[j], INPUT_PULLDOWN);
@@ -127,7 +130,7 @@ void loop()
 
 			found++;
 			const int key = keymap[j][i];
-			if (key == 0)
+			if (1 || key == 0)
 			{
 				Serial.print(j);
 				Serial.print(" ");
