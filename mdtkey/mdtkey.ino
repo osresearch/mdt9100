@@ -54,16 +54,30 @@ void setup()
 
 void loop()
 {
-	Serial.println("---");
+	uint8_t found = 0;
+
 	// scan the rows, setting one hot and seeing if any of the
 	// columns is also hot
 	for(uint8_t i = 0 ; i < num_rows ; i++)
 	{
+		// flush any stray capitance
+		for(uint8_t j = 0 ; j < num_cols ; j++)
+		{
+			digitalWrite(cols[j], 0);
+			pinMode(cols[j], OUTPUT);
+		}
+		delay(5);
+		for(uint8_t j = 0 ; j < num_cols ; j++)
+		{
+			pinMode(cols[j], INPUT_PULLDOWN);
+		}
+
 		const uint8_t row = rows[i];
 		pinMode(row, OUTPUT);
 		digitalWrite(row, 1);
+		delay(5);
 
-		for(uint8_t j = 0 ; j < num_rows ; j++)
+		for(uint8_t j = 0 ; j < num_cols ; j++)
 		{
 			const uint8_t col = cols[j];
 			const uint8_t val = digitalRead(col);
@@ -72,6 +86,7 @@ void loop()
 				Serial.print(i);
 				Serial.print(" ");
 				Serial.println(j);
+				found++;
 			}
 		}
 
@@ -80,5 +95,7 @@ void loop()
 		pinMode(row, INPUT);
 	}
 
-	delay(200);
+	if (found != 0)
+		Serial.println("---");
+	//delay(200);
 }
