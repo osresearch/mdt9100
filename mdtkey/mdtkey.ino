@@ -5,7 +5,9 @@
  * This connects to both halves via the ribbon cable.
  *
  * This sketch is designed for a Teensy 3.2 since it needs pulldown
- * due to the way the diodes are wired.
+ * due to the way the diodes are wired.  Be sure to select
+ * Tools - USB Type - Serial + Keyboard + Mouse
+ * 
  *
  * The rows are ribbon cable pins 1-8
  * The columns are ribbon cable pins 9-18
@@ -14,15 +16,16 @@
  */
 
 // these are teensy pin numbers, connected to the anode of the diodes
+// reversing the ribbon cable order gives us a more natural layout
 static const uint8_t rows[] = {
-	15,	// ribbon 1
-	8,	// ribbon 2
-	16,	// ribbon 3
-	7,	// ribbon 4
-	17,	// ribbon 5
-	6,	// ribbon 6
-	18,	// ribbon 7
 	5,	// ribbon 8
+	18,	// ribbon 7
+	6,	// ribbon 6
+	17,	// ribbon 5
+	7,	// ribbon 4
+	16,	// ribbon 3
+	8,	// ribbon 2
+	15,	// ribbon 1
 };
 
 // these are teensy pin numbers, connected to the switch, debounce and cathode
@@ -41,6 +44,39 @@ static const uint8_t cols[] = {
 
 static const unsigned num_rows = sizeof(rows)/sizeof(*rows);
 static const unsigned num_cols = sizeof(cols)/sizeof(*cols);
+
+// top row: esc home numlock prtscr scrlk pause insert delete "main app"
+// 00 01 02 03 04 05 06 07 20
+// numbers 1234567890-= back pageup
+// 21 22 23 24 25 26 27 30 31 32 33 34 35 36
+// tab qwertyuio[] pagedown
+// 37 40 41 42 43 44 45 46 47 50 51 52 53 54
+// caps asdfghjkl;' return
+// 55 56 57 60 61 62 63 64 65 66 67 70 17
+// lshift zxcvbnm,.? rshigt up end
+// 71 72 73 74 75 76 77 81 82 83 84 85 86
+// rctnrl alt space ,/ left down right
+// 87 90 91 92 93 94 95 96
+
+static const int keymap[][8] = {
+	/* 0 */ { KEY_ESC, KEY_HOME, KEY_NUM_LOCK, KEY_PRINTSCREEN, KEY_SCROLL_LOCK, KEY_PAUSE, KEY_DELETE },
+	/* 1 */ { 0, 0, 0, 0, 0, 0, 0, KEY_ENTER },
+	/* 2 */ { KEY_HOME, KEY_1, KEY_2, KEY_3, KEY_4, KEY_5, KEY_6, KEY_7 },
+	/* 3 */ { KEY_8, KEY_9, KEY_0, KEY_MINUS, KEY_EQUAL, KEY_BACKSPACE, KEY_PAGE_UP, KEY_TAB },
+	/* 4 */ { KEY_Q, KEY_W, KEY_E, KEY_R, KEY_T, KEY_Y, KEY_U, KEY_I },
+	/* 5 */ { KEY_O, KEY_P, KEY_LEFT_BRACE, KEY_RIGHT_BRACE, KEY_PAGE_DOWN, KEY_CAPS_LOCK, KEY_A, KEY_S },
+	/* 6 */ { KEY_D, KEY_F, KEY_G, KEY_H, KEY_J, KEY_K, KEY_L, KEY_SEMICOLON },
+	/* 7 */ { KEY_QUOTE, MODIFIERKEY_SHIFT, KEY_Z, KEY_X, KEY_C, KEY_V, KEY_B, KEY_N },
+	/* 8 */ { KEY_M, KEY_COMMA, KEY_PERIOD, KEY_SLASH, MODIFIERKEY_RIGHT_SHIFT, KEY_UP, KEY_END, MODIFIERKEY_CTRL },
+	/* 9 */ { MODIFIERKEY_ALT, KEY_SPACE, KEY_TILDE, KEY_BACKSLASH, KEY_LEFT, KEY_DOWN, KEY_RIGHT, 0 },
+};
+
+
+// keep track of which keys are pressed so that we can signal
+// when they are released.
+static uint8_t pressed[num_cols][num_rows];
+
+
 
 void setup()
 {
@@ -81,21 +117,30 @@ void loop()
 		{
 			const uint8_t col = cols[j];
 			const uint8_t val = digitalRead(col);
-			if (val)
+			if (!val)
 			{
-				Serial.print(i);
-				Serial.print(" ");
-				Serial.println(j);
-				found++;
+				if (pressed[j][i])
+					Keyboard.release(keymap[j][i]);
+				pressed[j][i] = 0;
+				continue;
 			}
+
+			found++;
+			const int key = keymap[j][i];
+			if (key == 0)
+			{
+				Serial.print(j);
+				Serial.print(" ");
+				Serial.println(i);
+				continue;
+			}
+
+			Keyboard.press(key);
+			pressed[j][i] = 1;
 		}
 
 		// restore the row pin to floating
 		digitalWrite(row, 0);
 		pinMode(row, INPUT);
 	}
-
-	if (found != 0)
-		Serial.println("---");
-	//delay(200);
 }
