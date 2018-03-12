@@ -11,12 +11,14 @@
  * The rows are ribbon cable pins 1-8
  * The columns are ribbon cable pins 9-18
  *
- * Caps lock LED is 19
- * Keyboard ground is 20
+ * Caps lock LED is ribbon cable 19
+ * Keyboard ground is ribbon cable 20
  *
  * The adapter board as built alternates sides to make it easier
  * to wire up.  Caps lock LED is active high on pin 0
  */
+
+#define CAPSLOCK_PIN 0
 
 // these are teensy pin numbers, connected to the anode of the diodes
 // reversing the ribbon cable order gives us a more natural layout
@@ -89,11 +91,13 @@ void setup()
 		pinMode(cols[i], INPUT_PULLDOWN);
 
 	Serial.begin(115200);
+	pinMode(CAPSLOCK_PIN, OUTPUT);
 }
 
 void loop()
 {
 	uint8_t found = 0;
+	digitalWrite(CAPSLOCK_PIN, 0);
 
 	// scan the rows, setting one hot and seeing if any of the
 	// columns is also hot
@@ -105,7 +109,7 @@ void loop()
 			digitalWrite(cols[j], 0);
 			pinMode(cols[j], OUTPUT);
 		}
-		delay(10);
+		delay(1);
 		for(uint8_t j = 0 ; j < num_cols ; j++)
 		{
 			pinMode(cols[j], INPUT_PULLDOWN);
@@ -114,7 +118,7 @@ void loop()
 		const uint8_t row = rows[i];
 		pinMode(row, OUTPUT);
 		digitalWrite(row, 1);
-		delay(5);
+		delay(1);
 
 		for(uint8_t j = 0 ; j < num_cols ; j++)
 		{
@@ -130,11 +134,12 @@ void loop()
 
 			found++;
 			const int key = keymap[j][i];
-			if (1 || key == 0)
+			if (key == 0)
 			{
 				Serial.print(j);
 				Serial.print(" ");
 				Serial.println(i);
+				digitalWrite(CAPSLOCK_PIN, 1);
 				continue;
 			}
 
