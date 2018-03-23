@@ -74,6 +74,10 @@ static const int keymap[][8] = {
 	/* 7 */ { KEY_QUOTE, MODIFIERKEY_SHIFT, KEY_Z, KEY_X, KEY_C, KEY_V, KEY_B, KEY_N },
 	/* 8 */ { KEY_M, KEY_COMMA, KEY_PERIOD, KEY_SLASH, MODIFIERKEY_RIGHT_SHIFT, KEY_UP, KEY_END, MODIFIERKEY_CTRL },
 	/* 9 */ { MODIFIERKEY_ALT, KEY_SPACE, KEY_TILDE, KEY_BACKSLASH, KEY_LEFT, KEY_DOWN, KEY_RIGHT, 0 },
+	/* Columns 10, 11, and 12 are pins 21, 22 and 23 on the ribbon header, respectively. */
+	/* 10 */ { 0, 0, 0, 0, KEY_F11, KEY_F8, KEY_F5, 0 /* EMERGENCY */ },
+	/* 11 */ { 0, 0, 0, KEY_F1, KEY_F12, KEY_F9, KEY_F6, KEY_F3 },
+	/* 12 */ { 0, 0, 0, KEY_F2, 0 /* SEND */, KEY_F10, KEY_F7, KEY_F4 },
 };
 
 
