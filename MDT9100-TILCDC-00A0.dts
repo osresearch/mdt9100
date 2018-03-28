@@ -1,97 +1,168 @@
+# 1 "gold.dts"
+# 1 "<built-in>"
+# 1 "<command-line>"
+# 1 "gold.dts"
+
+
+
+
+
+
+
 /dts-v1/;
+/plugin/;
+
+# 1 "./dt-bindings/board/am335x-bbw-bbb-base.h" 1
+# 12 "gold.dts" 2
+# 1 "./dt-bindings/gpio/gpio.h" 1
+# 13 "gold.dts" 2
+# 1 "./dt-bindings/pinctrl/am33xx.h" 1
+
+
+
+
+
+
+
+# 1 "./dt-bindings/pinctrl/omap.h" 1
+# 9 "./dt-bindings/pinctrl/am33xx.h" 2
+# 14 "gold.dts" 2
 
 / {
-	compatible = "ti,beaglebone", "ti,beaglebone-black";
-	part-number = "BB-BONE-CLASSICMAC-01";
-	version = "00A0";
-	exclusive-use = "P8.45", "P8.46", "P8.43", "P8.44", "P8.41", "P8.42", "P8.39", "P8.40", "P8.37", "P8.38", "P8.36", "P8.34", "P8.35", "P8.33", "P8.31", "P8.32", "P8.27", "P8.29", "P8.28", "P8.30", "P9.14", "P9.16", "P9.15", "P9.23", "P9.27", "P9.12", "P9.42", "gpio1_18", "gpio1_19", "gpio1_16", "gpio1_17", "gpio3_19", "gpio0_7", "lcd", "tps-bl", "tscadc";
+ compatible = "ti,beaglebone", "ti,beaglebone-black", "ti,beaglebone-green";
 
-	fragment@0 {
-		target = <0xdeadbeef>;
 
-		__overlay__ {
-			pinmux_bone_lcd3_cape_lcd_pins {
-				pinctrl-single,pins = <0xa0 0x8 0xa4 0x8 0xa8 0x8 0xac 0x8 0xb0 0x8 0xb4 0x8 0xb8 0x8 0xbc 0x8 0xc0 0x8 0xc4 0x8 0xc8 0x8 0xcc 0x8 0xd0 0x8 0xd4 0x8 0xd8 0x8 0xdc 0x8 0xe0 0x0 0xe4 0x0 0xe8 0x0 0xec 0x7>;
-				linux,phandle = <0x3>;
-				phandle = <0x3>;
-			};
-		};
-	};
+ part-number = "BB-BONE-MDT9100-01";
+ version = "00A0";
 
-	fragment@2 {
-		target = <0xdeadbeef>;
 
-		__overlay__ {
-			#address-cells = <0x1>;
-			#size-cells = <0x1>;
+ exclusive-use =
 
-			panel {
-				compatible = "tilcdc,panel";
-				pinctrl-names = "default";
-				pinctrl-0 = <0x3>;
+  "P8.45",
+  "P8.46",
+  "P8.43",
+  "P8.44",
+  "P8.41",
+  "P8.42",
+  "P8.39",
+  "P8.40",
+  "P8.37",
+  "P8.38",
+  "P8.36",
+  "P8.34",
+  "P8.35",
+  "P8.33",
+  "P8.31",
+  "P8.32",
+  "P8.27",
+  "P8.29",
+  "P8.28",
+  "P8.30",
+  "P9.14",
+  "P9.16",
+  "P9.15",
+  "P9.23",
+  "P9.27",
+  "P9.12",
+  "P9.42",
 
-				panel-info {
-					ac-bias = <0xff>;
-					ac-bias-intrpt = <0x0>;
-					dma-burst-sz = <0x10>;
-					bpp = <0x10>;
-					fdd = <0x80>;
-					tft-alt-mode = <0x0>;
-					stn-565-mode = <0x0>;
-					mono-8bit-mode = <0x0>;
-					sync-edge = <0x0>;
-					sync-ctrl = <0x1>;
-					raster-order = <0x0>;
-					fifo-th = <0x0>;
-					invert-pxl-clk;
-				};
+  "lcdc",
+  "tscadc";
 
-				display-timings {
-				    native-mode = <&timing0>;
-				    timing0: 640x480@60 {
-						hactive = <640>;
-						vactive = <480>;
-						hback-porch = <48>; // in pixels
-						hfront-porch = <16>; // in pixels
-						hsync-len = <96>; // in pixels
-						vback-porch = <33>; // in pixels
-						vfront-porch = <10>; // in pixels
-						vsync-len = <2>; // in lines
-						//clock-frequency = <25175000>;
-						//clock-frequency = <28000000>;
-						clock-frequency = <25200000>;
-						hsync-active = <0x0>;
-						vsync-active = <0x0>;
-						linux,phandle = <0x4>;
-						phandle = <0x4>;
-					};
-				};
-			};
+ fragment@0 {
+  target = <&am33xx_pinmux>;
+  __overlay__ {
 
-			fb {
-				compatible = "ti,am33xx-tilcdc";
-				reg = <0x4830e000 0x1000>;
-				interrupt-parent = <0xdeadbeef>;
-				interrupts = <0x24>;
-				ti,hwmods = "lcdc";
-				ti,power-gpio = <0xdeadbeef 0x19 0x0>;
-			};
-		};
-	};
+   bb_lcd_lcd_pins: pinmux_bb_lcd_lcd_pins {
+    pinctrl-single,pins = <
+     0x0A0 (((1 << 3)) | 0)
+     0x0A4 (((1 << 3)) | 0)
+     0x0A8 (((1 << 3)) | 0)
+     0x0AC (((1 << 3)) | 0)
+     0x0B0 (((1 << 3)) | 0)
+     0x0B4 (((1 << 3)) | 0)
+     0x0B8 (((1 << 3)) | 0)
+     0x0BC (((1 << 3)) | 0)
+     0x0C0 (((1 << 3)) | 0)
+     0x0C4 (((1 << 3)) | 0)
+     0x0C8 (((1 << 3)) | 0)
+     0x0CC (((1 << 3)) | 0)
+     0x0D0 (((1 << 3)) | 0)
+     0x0D4 (((1 << 3)) | 0)
+     0x0D8 (((1 << 3)) | 0)
+     0x0DC (((1 << 3)) | 0)
 
-	__symbols__ {
-		bone_lcd3_cape_lcd_pins = "/fragment@0/__overlay__/pinmux_bone_lcd3_cape_lcd_pins";
-		timing0 = "/fragment@2/__overlay__/panel/display-timings/640x480";
-	};
+     0x0E0 (((1 << 3)) | 0)
+     0x0E4 (((1 << 3)) | 0)
+     0x0E8 (((1 << 3)) | 0)
+     0x0EC (((1 << 3)) | 0)
+    >;
+   };
+  };
+ };
 
-	__fixups__ {
-		am33xx_pinmux = "/fragment@0:target:0";
-		ocp = "/fragment@2:target:0";
-		intc = "/fragment@2/__overlay__/fb:interrupt-parent:0";
-		gpio3 = "/fragment@2/__overlay__/fb:ti,power-gpio:0";
-	};
+ fragment@1 {
+  target = <&lcdc>;
+  __overlay__ {
+   status = "okay";
+  };
+ };
 
-	__local_fixups__ {
-		fixup = "/fragment@2/__overlay__/panel:pinctrl-0:0", "/fragment@2/__overlay__/panel/display-timings:native-mode:0";
-	};
+
+ fragment@2 {
+  target-path="/";
+  __overlay__ {
+
+
+   #address-cells = <1>;
+   #size-cells = <1>;
+
+
+   panel {
+    status = "okay";
+    compatible = "ti,tilcdc,panel";
+    pinctrl-names = "default";
+    pinctrl-0 = <&bb_lcd_lcd_pins>;
+    panel-info {
+     ac-bias = <255>;
+     ac-bias-intrpt = <0>;
+     dma-burst-sz = <16>;
+     bpp = <16>;
+     fdd = <0x80>;
+     tft-alt-mode = <0x0>;
+     stn-565-mode = <0x0>;
+     mono-8bit-mode = <0x0>;
+     sync-edge = <0>;
+     sync-ctrl = <1>;
+     raster-order = <0>;
+     fifo-th = <0>;
+     invert-pxl-clk;
+    };
+    display-timings {
+     native-mode = <&timing0>;
+
+     timing0: 640x480@60 {
+      hactive = <640>;
+      vactive = <480>;
+      hfront-porch = <16>;
+      hback-porch = <48>;
+      hsync-len = <96>;
+      vback-porch = <33>;
+      vfront-porch = <10>;
+      vsync-len = <2>;
+      clock-frequency = <25200000>;
+      hsync-active = <0>;
+      vsync-active = <0>;
+     };
+    };
+    fb {
+     compatible = "ti,am33xx-tilcdc";
+     reg = <0x4830e000 0x1000>;
+     interrupt-parent = <&intc>;
+     interrupts = <0x24>;
+     ti,hwmods = "lcdc";
+    };
+   };
+  };
+ };
 };
