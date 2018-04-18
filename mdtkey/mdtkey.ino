@@ -64,7 +64,7 @@ static const unsigned num_cols = sizeof(cols)/sizeof(*cols);
 // 87 90 91 92 93 94 95 96
 
 static const int keymap[][8] = {
-	/* 0 */ { KEY_ESC, KEY_HOME, KEY_NUM_LOCK, KEY_PRINTSCREEN, KEY_SCROLL_LOCK, KEY_PAUSE, KEY_DELETE },
+	/* 0 */ { KEY_ESC, KEY_HOME, KEY_NUM_LOCK, KEY_PRINTSCREEN, KEY_SCROLL_LOCK, KEY_PAUSE, KEY_INSERT, KEY_DELETE },
 	/* 1 */ { 0, 0, 0, 0, 0, 0, 0, KEY_ENTER },
 	/* 2 */ { KEY_HOME, KEY_1, KEY_2, KEY_3, KEY_4, KEY_5, KEY_6, KEY_7 },
 	/* 3 */ { KEY_8, KEY_9, KEY_0, KEY_MINUS, KEY_EQUAL, KEY_BACKSPACE, KEY_PAGE_UP, KEY_TAB },
